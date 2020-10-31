@@ -61,8 +61,13 @@ mkdir /home/<ci_cd_username>/.ssh
 mkdir /home/<ci_cd_username>/.ssh/authorized_keys # <- put ssh public key here
 
 
-# setup nginx config after deploy
 # setup systemd service
+# mv shop.service /etc/systemd/system/
+sudo systemctl start shop
+
+# setup nginx config after deploy
+sudo nginx -t
+sudo nginx -s reload
 
 # setup ssl with cert bot
 sudo certbot --nginx
