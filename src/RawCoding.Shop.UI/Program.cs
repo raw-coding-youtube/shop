@@ -50,6 +50,7 @@ namespace RawCoding.Shop.UI
                                 new Image {Index = 2, Path = "https://aw-test-bucket.eu-central-1.linodeobjects.com/raw-coding-shop/test-images/pen.jpg"},
                                 new Image {Index = 3, Path = "https://aw-test-bucket.eu-central-1.linodeobjects.com/raw-coding-shop/test-images/shirt.jpg"},
                             },
+                            Published = true,
                         });
 
                         context.Add(new Product
@@ -71,6 +72,7 @@ namespace RawCoding.Shop.UI
                                 new Image {Index = 1, Path = "https://aw-test-bucket.eu-central-1.linodeobjects.com/raw-coding-shop/test-images/pen.jpg"},
                                 new Image {Index = 2, Path = "https://aw-test-bucket.eu-central-1.linodeobjects.com/raw-coding-shop/test-images/shirt.jpg"},
                             },
+                            Published = true,
                         });
 
 
@@ -91,6 +93,7 @@ namespace RawCoding.Shop.UI
                                 new Image {Index = 0, Path = "https://aw-test-bucket.eu-central-1.linodeobjects.com/raw-coding-shop/test-images/book.jpg"},
                                 new Image {Index = 1, Path = "https://aw-test-bucket.eu-central-1.linodeobjects.com/raw-coding-shop/test-images/shirt.jpg"},
                             },
+                            Published = true,
                         });
 
                         context.Add(new Product
@@ -109,6 +112,7 @@ namespace RawCoding.Shop.UI
                                 new Image {Index = 0, Path = "https://aw-test-bucket.eu-central-1.linodeobjects.com/raw-coding-shop/test-images/pen.jpg"},
                                 new Image {Index = 1, Path = "https://aw-test-bucket.eu-central-1.linodeobjects.com/raw-coding-shop/test-images/shirt.jpg"},
                             },
+                            Published = true,
                         });
 
                         context.Add(new Product
@@ -125,6 +129,7 @@ namespace RawCoding.Shop.UI
                             {
                                 new Image {Index = 0, Path = "https://aw-test-bucket.eu-central-1.linodeobjects.com/raw-coding-shop/test-images/shirt.jpg"},
                             },
+                            Published = true,
                         });
                         context.SaveChanges();
 

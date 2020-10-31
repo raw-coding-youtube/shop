@@ -41,15 +41,16 @@ namespace RawCoding.Shop.Database
         {
             return _ctx.Products
                 .AsNoTracking()
+                .Where(x => x.Slug.ToLower() == slug.ToLower() && x.Published)
                 .Include(x => x.Stock)
                 .Include(x => x.Images)
-                .FirstOrDefault(x => x.Slug == slug);
+                .FirstOrDefault();
         }
 
         public IEnumerable<Product> GetFrontPageProducts()
         {
             return _ctx.Products
-                .Where(x => x.Stock.Count > 0)
+                .Where(x => x.Stock.Count > 0 && x.Published)
                 .Include(x => x.Stock)
                 .Include(x => x.Images)
                 .ToList();

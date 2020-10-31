@@ -43,6 +43,15 @@ namespace RawCoding.Shop.UI.Controllers.Admin
             [FromServices] UpdateStock updateStock) =>
             updateStock.ForProduct(id, stocks);
 
+
+        [HttpPut("{id}/publish")]
+        public Task PublishProduct(int id, [FromServices] UpdateProduct updateProduct) =>
+            updateProduct.Publish(id);
+
+        [HttpPut("{id}/archive")]
+        public Task ArchiveProduct(int id, [FromServices] UpdateProduct updateProduct) =>
+            updateProduct.Archive(id);
+
         [HttpPost]
         public async Task<object> CreateProduct(
             [FromForm] ProductForm form,
@@ -93,7 +102,7 @@ namespace RawCoding.Shop.UI.Controllers.Admin
                 }));
             }
 
-            await updateProduct.Do(product);
+            await updateProduct.Update(product);
             return Ok();
         }
 
