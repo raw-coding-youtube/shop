@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
 using RawCoding.S3;
+using RawCoding.Shop.UI.Middleware.Shop;
 using RawCoding.Shop.UI.Workers.Email;
 
 namespace RawCoding.Shop.UI
@@ -41,8 +42,8 @@ namespace RawCoding.Shop.UI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            // todo data protection
             services.Configure<StripeSettings>(_config.GetSection(nameof(StripeSettings)));
+            services.Configure<ShopSettings>(_config.GetSection(nameof(ShopSettings)));
 
             if (_env.IsProduction())
             {
@@ -51,24 +52,33 @@ namespace RawCoding.Shop.UI
                     .PersistKeysToFileSystem(new DirectoryInfo(_config["DataProtectionKeys"]));
             }
 
-            services.AddDbContext<ApplicationDbContext>(options => options
-                .UseNpgsql(_config.GetConnectionString("DefaultConnection")));
+            // services.AddDbContext<ApplicationDbContext>(options => options
+            //     .UseNpgsql(_config.GetConnectionString("DefaultConnection")));
             // if (_env.IsProduction())
             // {
             // }
             // else
             // {
-            //     services.AddDbContext<ApplicationDbContext>(options => options
-            //         .UseInMemoryDatabase("Dev"));
+            services.AddDbContext<ApplicationDbContext>(options => options
+                .UseInMemoryDatabase("Dev"));
             // }
 
-            // todo configure for prod
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
                 {
-                    options.Password.RequireDigit = false;
-                    options.Password.RequiredLength = 6;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireUppercase = false;
+                    if (_env.IsProduction())
+                    {
+                        options.Password.RequireDigit = true;
+                        options.Password.RequiredLength = 8;
+                        options.Password.RequireNonAlphanumeric = true;
+                        options.Password.RequireUppercase = true;
+                    }
+                    else
+                    {
+                        options.Password.RequireDigit = false;
+                        options.Password.RequiredLength = 6;
+                        options.Password.RequireNonAlphanumeric = false;
+                        options.Password.RequireUppercase = false;
+                    }
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -78,7 +88,7 @@ namespace RawCoding.Shop.UI
                 config.LoginPath = "/Admin/Login";
             });
 
-            services.AddAuthentication()
+            services.AddAuthentication(ShopConstants.Schemas.Guest)
                 .AddCookie(ShopConstants.Schemas.Guest,
                     config =>
                     {
@@ -92,7 +102,7 @@ namespace RawCoding.Shop.UI
             {
                 config.AddPolicy(ShopConstants.Policies.Customer, policy => policy
                     .AddAuthenticationSchemes(ShopConstants.Schemas.Guest)
-                    .AddRequirements(new ShopRequirement())
+                    .AddRequirements(new GuestRequirement())
                     .RequireAuthenticatedUser());
 
                 config.AddPolicy(ShopConstants.Policies.Admin, policy => policy
@@ -144,6 +154,8 @@ namespace RawCoding.Shop.UI
 
             app.UseRouting();
 
+            app.UseMiddleware<ShopMiddleware>();
+
             app.UseStatusCodePages(context =>
             {
                 var pathBase = context.HttpContext.Request.PathBase;
@@ -173,9 +185,9 @@ namespace RawCoding.Shop.UI
                 _ => "/",
             };
 
-        public class ShopRequirement : AuthorizationHandler<ShopRequirement>, IAuthorizationRequirement
+        public class GuestRequirement : AuthorizationHandler<GuestRequirement>, IAuthorizationRequirement
         {
-            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ShopRequirement requirement)
+            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, GuestRequirement requirement)
             {
                 if (context.User != null)
                 {

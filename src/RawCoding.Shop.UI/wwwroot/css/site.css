@@ -7,6 +7,10 @@ body {
     color: #1B0F1E;
 }
 
+.container {
+    width: 100%;
+}
+
 .flex {
     display: flex;
 }
