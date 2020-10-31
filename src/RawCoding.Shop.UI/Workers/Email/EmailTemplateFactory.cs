@@ -43,7 +43,7 @@ namespace RawCoding.Shop.UI.Workers.Email
 
         private async Task<string> RenderTemplateAsync(string templateName, object seed = null)
         {
-            var templatePath = Path.Combine(_env.WebRootPath, "email-templates", $"{templateName}.liquid");
+            var templatePath = Path.Combine(_env.ContentRootPath, "EmailTemplates", $"{templateName}.liquid");
             if (_env.IsDevelopment() || !TemplateCache.TryGetValue(templatePath, out var template))
             {
                 var templateString = await File.ReadAllTextAsync(templatePath);
