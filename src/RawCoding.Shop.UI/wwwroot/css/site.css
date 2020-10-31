@@ -51,7 +51,8 @@ body {
     align-self: center;
 }
 
-.text-white {
+.text-white,
+.text-white * {
     color: #fff !important;
 }
 
@@ -180,5 +181,9 @@ button.flow-color {
     margin-right: .5rem;
     margin-bottom: .25rem !important;
     font-weight: bold;
+}
+
+.is-fullwidth {
+    width: 100%;
 }
 
