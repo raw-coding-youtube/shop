@@ -6,8 +6,10 @@
     Layout = "_Layout";
 }
 
-<div class="box bkg-white">
-    <h1 class="title s-size-2">Payment Successfull</h1>
-    <p class="is-size-3">Your order reference number is <a href="/orders/@Model.OrderId">@Model.OrderId</a></p>
-    <p class="is-size-4">You will recieve a confirmation email. Return to <a asp-page="/Index">Shop</a></p>
+<div class="hero">
+    <div class="hero-head text-white is-size-2 has-text-centered">Payment Successfull</div>
+    <div class="hero-body text-white is-size-4">
+        Your order reference number is <a class="is-link" href="/orders/@Model.OrderId">@Model.OrderId</a> <br/>
+        You will recieve a confirmation email. Return to <a class="is-link" asp-page="/Index">Shop</a>
+    </div>
 </div>

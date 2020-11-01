@@ -13,26 +13,31 @@ input {
     width: 100%;
     background: white;
 }
+
 .hidden {
     display: none;
 }
+
 #card-error {
     text-align: left;
     font-size: 13px;
     line-height: 17px;
     margin-top: 12px;
 }
+
 #card-element {
-    border-radius: 4px 4px 0 0 ;
+    border-radius: 4px 4px 0 0;
     padding: 12px;
     border: 1px solid rgba(50, 50, 93, 0.1);
     height: 44px;
     width: 100%;
     background: white;
 }
+
 #payment-request-button {
     margin-bottom: 32px;
 }
+
 /* Buttons and links */
 button {
     background: #5469d4;
@@ -49,78 +54,75 @@ button {
     box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
     width: 100%;
 }
+
 button:hover {
     filter: contrast(115%);
 }
+
 button:disabled {
     opacity: 0.5;
     cursor: default;
 }
-/* spinner/processing state, errors */
-.spinner,
-.spinner:before,
-.spinner:after {
+
+.full-screen-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
+    z-index: 50;
+    background-color: rgba(10, 10, 10, 0.86);
+}
+
+.full-screen-loader.is-active {
+    display: flex;
+}
+
+.dot-loader .dot {
+    min-width: .6rem;
+    min-height: .6rem;
+    margin: 0 .5rem;
+    background: #fff;
     border-radius: 50%;
+    display: inline-block;
+    animation: load 0.8s infinite;
 }
-.spinner {
-    color: #ffffff;
-    font-size: 22px;
-    text-indent: -99999px;
-    margin: 0px auto;
-    position: relative;
-    width: 20px;
-    height: 20px;
-    box-shadow: inset 0 0 0 2px;
-    -webkit-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    transform: translateZ(0);
+
+.dot-loader .dot:nth-child(2) {
+    animation-delay: .1s;
 }
-.spinner:before,
-.spinner:after {
-    position: absolute;
-    content: "";
+
+.dot-loader .dot:nth-child(3) {
+    animation-delay: .2s;
 }
-.spinner:before {
-    width: 10.4px;
-    height: 20.4px;
-    background: #5469d4;
-    border-radius: 20.4px 0 0 20.4px;
-    top: -0.2px;
-    left: -0.2px;
-    -webkit-transform-origin: 10.4px 10.2px;
-    transform-origin: 10.4px 10.2px;
-    -webkit-animation: loading 2s infinite ease 1.5s;
-    animation: loading 2s infinite ease 1.5s;
+
+.dot-loader .dot:nth-child(4) {
+    animation-delay: .3s;
 }
-.spinner:after {
-    width: 10.4px;
-    height: 10.2px;
-    background: #5469d4;
-    border-radius: 0 10.2px 10.2px 0;
-    top: -0.1px;
-    left: 10.2px;
-    -webkit-transform-origin: 0px 10.2px;
-    transform-origin: 0px 10.2px;
-    -webkit-animation: loading 2s infinite ease;
-    animation: loading 2s infinite ease;
+
+@keyframes load {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        opacity: .3;
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
-@-webkit-keyframes loading {
-     0% {
-         -webkit-transform: rotate(0deg);
-         transform: rotate(0deg);
-     }
-     100% {
-         -webkit-transform: rotate(360deg);
-         transform: rotate(360deg);
-     }
- }
-@keyframes loading {
-     0% {
-         -webkit-transform: rotate(0deg);
-         transform: rotate(0deg);
-     }
-     100% {
-         -webkit-transform: rotate(360deg);
-         transform: rotate(360deg);
-     }
- }
+
+.dot-loader img:first-child {
+    height: 69px;
+}
+
+.dot-loader img:last-child {
+    height: 60px;
+}
