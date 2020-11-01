@@ -22,6 +22,13 @@ namespace RawCoding.Shop.UI.Workers.Email
             _env = env;
         }
 
+        public Task<string> RenderRegisterInvitationAsync(string link) =>
+            Compose(
+                RenderHeaderAsync(),
+                RenderTemplateAsync("register-invite", new {link}),
+                RenderFooterAsync()
+            );
+
         public Task<string> RenderOrderConfirmationAsync(Order order) =>
             Compose(
                 RenderHeaderAsync(),

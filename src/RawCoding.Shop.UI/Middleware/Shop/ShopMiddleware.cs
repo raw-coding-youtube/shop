@@ -25,8 +25,7 @@ namespace RawCoding.Shop.UI.Middleware.Shop
             {
                 context.Response.Redirect("/closed");
             }
-
-            if (closedEndpoint)
+            else if (_optionsMonitor.CurrentValue.Open && closedEndpoint)
             {
                 context.Response.Redirect("/");
             }

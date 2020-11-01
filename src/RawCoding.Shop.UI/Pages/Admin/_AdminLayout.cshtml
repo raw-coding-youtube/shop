@@ -17,6 +17,12 @@
                     <li>
                         <a asp-page="/Admin/Stock">Stock</a>
                     </li>
+                    @if (User.HasClaim(ShopConstants.Claims.Role, ShopConstants.Roles.Admin))
+                    {
+                        <li>
+                            <a asp-page="/Admin/UserManagement">User Management</a>
+                        </li>
+                    }
                 </ul>
 
                 <p class="menu-label"></p>

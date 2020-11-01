@@ -46,11 +46,13 @@ namespace RawCoding.Shop.UI.Extensions
                         options.Password.RequireUppercase = false;
                     }
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.Domain = config["CookieDomain"];
+                options.AccessDeniedPath= "/Admin/Login";
                 options.LoginPath = "/Admin/Login";
             });
 
@@ -68,7 +70,12 @@ namespace RawCoding.Shop.UI.Extensions
             {
                 options.AddPolicy(ShopConstants.Policies.Customer, policy => policy
                     .AddAuthenticationSchemes(ShopConstants.Schemas.Guest)
-                    .AddRequirements(new GuestRequirement())
+                    .AddRequirements(new ShopRequirement(ShopConstants.Roles.Guest))
+                    .RequireAuthenticatedUser());
+
+                options.AddPolicy(ShopConstants.Policies.ShopManager, policy => policy
+                    .AddAuthenticationSchemes(IdentityConstants.ApplicationScheme)
+                    .AddRequirements(new ShopRequirement(ShopConstants.Roles.ShopManager))
                     .RequireAuthenticatedUser());
 
                 options.AddPolicy(ShopConstants.Policies.Admin, policy => policy
@@ -99,8 +106,10 @@ namespace RawCoding.Shop.UI.Extensions
 
             services.AddRazorPages(options =>
             {
-                options.Conventions.AuthorizeFolder("/Admin", ShopConstants.Policies.Admin);
+                options.Conventions.AuthorizeFolder("/Admin", ShopConstants.Policies.ShopManager);
+                options.Conventions.AuthorizePage("/Admin/UserManagement", ShopConstants.Policies.Admin);
                 options.Conventions.AllowAnonymousToPage("/Admin/Login");
+                options.Conventions.AllowAnonymousToPage("/Admin/Register");
             });
 
             return services;

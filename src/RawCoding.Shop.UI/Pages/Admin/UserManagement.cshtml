@@ -1,0 +1,42 @@
+﻿@page
+@{
+}
+
+<div id="app">
+    <div>
+        <div class="field has-addons">
+            <div class="control">
+                <input class="input" type="text" v-model="email" placeholder="User Email">
+            </div>
+            <div class="control">
+                <a class="button" @@click="createUser">
+                    Send Invite
+                </a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="user in users">
+                <td>{{user.userName}}</td>
+                <td>{{user.email}}</td>
+                <td>
+                    <a @@click="deleteUser(user.id)">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/admin/userManagement.js"></script>
+}

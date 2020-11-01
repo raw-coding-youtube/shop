@@ -4,16 +4,16 @@
     Layout = "_AdminLayoutBase";
 }
 <section class="hero">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">
-        Admin Panel
-      </h1>
-      <h2 class="subtitle">
-        Select Section
-      </h2>
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Admin Panel
+            </h1>
+            <h2 class="subtitle">
+                Select Section
+            </h2>
+        </div>
     </div>
-  </div>
 </section>
 <nav class="level">
     <div class="level-item has-text-centered">
@@ -31,4 +31,12 @@
             <a asp-page="/Admin/Orders" class="title">Orders</a>
         </div>
     </div>
+    @if (User.HasClaim(ShopConstants.Claims.Role, ShopConstants.Roles.Admin))
+    {
+        <div class="level-item has-text-centered">
+            <div>
+                <a asp-page="/Admin/UserManagement" class="title">User Management</a>
+            </div>
+        </div>
+    }
 </nav>

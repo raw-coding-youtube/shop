@@ -64,37 +64,29 @@ namespace RawCoding.Shop.UI
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
+            app.UseStaticFiles()
+                .UseCookiePolicy()
+                .UseRouting()
+                .UseMiddleware<ShopMiddleware>()
+                .UseStatusCodePages(context =>
+                {
+                    var pathBase = context.HttpContext.Request.PathBase;
+                    var endpoint = StatusCodeEndpoint(context.HttpContext.Response.StatusCode);
+                    context.HttpContext.Response.Redirect(pathBase + endpoint);
+                    return Task.CompletedTask;
+                })
+                .UseAuthentication()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapDefaultControllerRoute()
+                        .RequireAuthorization(ShopConstants.Policies.Customer);
 
-            app.UseRouting();
-
-            app.UseMiddleware<ShopMiddleware>();
-
-            app.UseStatusCodePages(context =>
-            {
-                var pathBase = context.HttpContext.Request.PathBase;
-                var endpoint = StatusCodeEndpoint(context.HttpContext.Response.StatusCode);
-                context.HttpContext.Response.Redirect(pathBase + endpoint);
-                return Task.CompletedTask;
-            });
-
-            app.UseAuthentication();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapDefaultControllerRoute()
-                    .RequireAuthorization(ShopConstants.Policies.Customer);
-
-                endpoints.MapRazorPages()
-                    .RequireAuthorization(ShopConstants.Policies.Customer);
-            });
+                    endpoints.MapRazorPages()
+                        .RequireAuthorization(ShopConstants.Policies.Customer);
+                });
         }
 
         private static string StatusCodeEndpoint(int code) =>
@@ -103,7 +95,5 @@ namespace RawCoding.Shop.UI
                 StatusCodes.Status404NotFound => "/not-found",
                 _ => "/",
             };
-
-
     }
 }

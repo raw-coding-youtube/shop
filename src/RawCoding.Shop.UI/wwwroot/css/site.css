@@ -146,6 +146,12 @@ button.flow-color {
     }
 }
 
+@media screen and (max-width: 469px) {
+    .logo img {
+        height: 69px;
+    }
+}
+
 /* Popup */
 
 .popup {
