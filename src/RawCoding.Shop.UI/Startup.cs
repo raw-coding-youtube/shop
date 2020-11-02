@@ -33,7 +33,7 @@ namespace RawCoding.Shop.UI
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
             });
 
             services.Configure<StripeSettings>(_config.GetSection(nameof(StripeSettings)));
