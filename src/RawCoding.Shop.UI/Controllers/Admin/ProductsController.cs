@@ -53,6 +53,7 @@ namespace RawCoding.Shop.UI.Controllers.Admin
             updateProduct.Archive(id);
 
         [HttpPost]
+        [DisableRequestSizeLimit]
         public async Task<object> CreateProduct(
             [FromForm] ProductForm form,
             [FromServices] CreateProduct createProduct,

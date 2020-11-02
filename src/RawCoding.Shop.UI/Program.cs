@@ -201,7 +201,7 @@ namespace RawCoding.Shop.UI
                 .UseStartup<Startup>()
                 .UseKestrel(options =>
                 {
-                    options.Limits.MaxRequestBodySize = 1_000_000_000;
+                    options.Limits.MaxRequestBodySize = 1_073_741_824;
                 });
     }
 }
