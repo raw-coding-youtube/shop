@@ -7,6 +7,10 @@ body {
     color: #1B0F1E;
 }
 
+.container {
+    width: 100%;
+}
+
 .flex {
     display: flex;
 }
@@ -47,7 +51,8 @@ body {
     align-self: center;
 }
 
-.text-white {
+.text-white,
+.text-white * {
     color: #fff !important;
 }
 
@@ -63,7 +68,8 @@ body {
     color: #1B0F1E !important;
 }
 
-.text-blue {
+.text-blue,
+.is-link {
     color: #00AAFF !important;
 }
 
@@ -140,6 +146,12 @@ button.flow-color {
     }
 }
 
+@media screen and (max-width: 469px) {
+    .logo img {
+        height: 69px;
+    }
+}
+
 /* Popup */
 
 .popup {
@@ -176,5 +188,9 @@ button.flow-color {
     margin-right: .5rem;
     margin-bottom: .25rem !important;
     font-weight: bold;
+}
+
+.is-fullwidth {
+    width: 100%;
 }
 

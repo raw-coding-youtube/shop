@@ -5,6 +5,7 @@ namespace RawCoding.Shop.UI
         public struct Policies
         {
             public const string Customer = nameof(Customer);
+            public const string ShopManager = nameof(ShopManager);
             public const string Admin = nameof(Admin);
         }
         public struct Schemas
@@ -20,6 +21,7 @@ namespace RawCoding.Shop.UI
         public struct Roles
         {
             public const string Guest = nameof(Guest);
+            public const string ShopManager = nameof(ShopManager);
             public const string Admin = nameof(Admin);
         }
     }

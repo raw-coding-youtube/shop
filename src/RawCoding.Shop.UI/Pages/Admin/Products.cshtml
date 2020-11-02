@@ -12,6 +12,7 @@
                 <th>Series</th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
             <tr v-for="(product, index) in products">
                 <td>{{product.id}}</td>
@@ -22,6 +23,10 @@
                 </td>
                 <td>
                     <a @@click="deleteProduct(product.id, index)">Remove</a>
+                </td>
+                <td>
+                    <a v-if="product.published" @@click="archiveProduct(product.id)">Archive</a>
+                    <a v-else @@click="publishProduct(product.id)">Publish</a>
                 </td>
             </tr>
         </table>

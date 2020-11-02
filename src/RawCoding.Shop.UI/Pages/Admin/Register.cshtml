@@ -1,0 +1,60 @@
+﻿@page
+@model RegisterModel
+@{
+    Layout = null;
+}
+
+<partial name="Shared/_CSS"/>
+
+<style>
+    .full-height {
+        height: 100%;
+        display: flex;
+    }
+
+    .full-height div {
+        align-self: center;
+        width: 100%;
+    }
+</style>
+
+<div class="full-height bkg-black">
+    <div class="columns">
+        <div class="column is-6 is-offset-3 is-4-desktop is-offset-4-desktop">
+            <form class="card" method="post">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        Login
+                    </p>
+                </header>
+                <div class="card-content">
+                    <input type="hidden" asp-for="Input.Email" value="@Model.Input.Email">
+                    <input type="hidden" asp-for="Input.Code" value="@Model.Input.Code">
+                    <div class="field">
+                        <label class="label">Email</label>
+                        <span>@Model.Input.Email</span>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Password</label>
+                        <div class="control">
+                            <input asp-for="Input.Password" class="input" placeholder="Password">
+                        </div>
+                        <span asp-validation-for="Input.Password" class="help is-success"></span>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Confirm Password</label>
+                        <div class="control">
+                            <input asp-for="Input.ConfirmPassword" class="input" placeholder="Confirm Password">
+                        </div>
+                        <span asp-validation-for="Input.ConfirmPassword" class="help is-success"></span>
+                    </div>
+                    <div class="flex justify-center">
+                        <button type="submit" class="button bkg-light-blue">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

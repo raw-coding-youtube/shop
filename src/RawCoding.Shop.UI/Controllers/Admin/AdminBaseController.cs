@@ -5,9 +5,8 @@ namespace RawCoding.Shop.UI.Controllers.Admin
 {
     [ApiController]
     [Route("api/admin/[controller]")]
-    [Authorize(ShopConstants.Policies.Admin)]
+    [Authorize(ShopConstants.Policies.ShopManager)]
     public class AdminBaseController : ControllerBase
     {
-
     }
 }

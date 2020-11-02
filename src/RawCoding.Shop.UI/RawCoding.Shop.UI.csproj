@@ -18,4 +18,7 @@
     <ProjectReference Include="..\RawCoding.Shop.Application\RawCoding.Shop.Application.csproj" />
     <ProjectReference Include="..\RawCoding.Shop.Database\RawCoding.Shop.Database.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="EmailTemplates\**" CopyToPublishDirectory="Always" />
+  </ItemGroup>
 </Project>

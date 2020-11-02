@@ -19,11 +19,22 @@
 <form method="post" id="payment-form">
     <div id="card-element"><!--Stripe.js injects the Card Element--></div>
     <button class="button flow-color" type="submit">
-        <div class="spinner hidden" id="spinner"></div>
         <span id="button-text">Pay</span>
     </button>
     <p class="text-red" id="card-error" role="alert"></p>
 </form>
+
+
+<div class="full-screen-loader" id="full-screen-loader">
+    <div class="flex justify-center align-center dot-loader">
+        <img src="https://aw-test-bucket.eu-central-1.linodeobjects.com/raw-coding-shop/logo.png" alt="">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <img src="~/icons/stripe.svg" alt="">
+    </div>
+    <div class="mt-4 text-white is-size-3-mobile is-size-2" id="full-screen-loader-status">Connecting to Stripe</div>
+</div>
 
 @inject IOptionsMonitor<StripeSettings> stripeSettings
 
@@ -94,12 +105,10 @@
         var loading = function(isLoading) {
           if (isLoading) {
             document.querySelector("button").disabled = true;
-            document.querySelector("#spinner").classList.remove("hidden");
+            document.getElementById('full-screen-loader').classList.add('is-active');
             document.querySelector("#button-text").classList.add("hidden");
           } else {
-            document.querySelector("button").disabled = false;
-            document.querySelector("#spinner").classList.add("hidden");
-            document.querySelector("#button-text").classList.remove("hidden");
+            document.getElementById("full-screen-loader-status").textContent = 'Completing Payment';
           }
         };
     </script>

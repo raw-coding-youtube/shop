@@ -30,6 +30,7 @@ namespace RawCoding.Shop.UI.Pages.Checkout
 
             var paymentIntent = await paymentIntentService.CreateAsync(new PaymentIntentCreateOptions
             {
+                CaptureMethod = "manual",
                 Amount = cart.Products.Sum(x => x.Qty * x.Stock.Value),
                 Currency = "gbp",
                 ReceiptEmail = cart.Email,
@@ -45,8 +46,8 @@ namespace RawCoding.Shop.UI.Pages.Checkout
                         Country = cart.Country,
                         PostalCode = cart.PostCode,
                         State = cart.State,
-                    }
-                }
+                    },
+                },
             });
 
             ClientSecret = paymentIntent.ClientSecret;
@@ -60,12 +61,11 @@ namespace RawCoding.Shop.UI.Pages.Checkout
             [FromServices] GetCart getCart,
             [FromServices] PaymentIntentService paymentIntentService)
         {
-            var payment = await paymentIntentService.GetAsync(paymentId);
+            var payment = await paymentIntentService.CaptureAsync(paymentId);
 
             if (payment == null)
             {
-                //todo do some kinda notification that this went wrong.
-                return RedirectToPage();
+                return RedirectToPage("/Checkout/Error");
             }
 
             var order = new Domain.Models.Order

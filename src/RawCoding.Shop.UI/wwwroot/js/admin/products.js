@@ -98,19 +98,17 @@ var app = new Vue({
                 })
                 .finally(this.resetForm)
         },
-        deleteProduct(id, index) {
-            this.loading = true;
-            axios.delete(+id)
-                .then(res => {
-                    console.log(res);
-                    this.products.splice(index, 1);
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-                .then(() => {
-                    this.loading = false;
-                });
+        publishProduct(id) {
+            return axios.put(url + '/' + id + '/publish')
+                .then(this.getProducts)
+                .catch(err => console.log(err))
+                .finally(this.resetForm);
+        },
+        archiveProduct(id) {
+            return axios.put(url + '/' + id + '/archive')
+                .then(this.getProducts)
+                .catch(err => console.log(err))
+                .finally(this.resetForm);
         },
         resetForm() {
             this.form = null

@@ -32,6 +32,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9C461E62-4811-4CA3-902D-F87515427A1B}"
 ProjectSection(SolutionItems) = preProject
 	scripts\tests\shop-test-email.http = scripts\tests\shop-test-email.http
+	scripts\tests\shop-test-payment.http = scripts\tests\shop-test-payment.http
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "environment", "environment", "{6BD435CB-7F0F-4E75-A294-A9E12527DAA8}"

@@ -22,6 +22,13 @@ namespace RawCoding.Shop.UI.Workers.Email
             _env = env;
         }
 
+        public Task<string> RenderRegisterInvitationAsync(string link) =>
+            Compose(
+                RenderHeaderAsync(),
+                RenderTemplateAsync("register-invite", new {link}),
+                RenderFooterAsync()
+            );
+
         public Task<string> RenderOrderConfirmationAsync(Order order) =>
             Compose(
                 RenderHeaderAsync(),
@@ -43,7 +50,7 @@ namespace RawCoding.Shop.UI.Workers.Email
 
         private async Task<string> RenderTemplateAsync(string templateName, object seed = null)
         {
-            var templatePath = Path.Combine(_env.WebRootPath, "email-templates", $"{templateName}.liquid");
+            var templatePath = Path.Combine(_env.ContentRootPath, "EmailTemplates", $"{templateName}.liquid");
             if (_env.IsDevelopment() || !TemplateCache.TryGetValue(templatePath, out var template))
             {
                 var templateString = await File.ReadAllTextAsync(templatePath);

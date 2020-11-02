@@ -6,22 +6,6 @@
     Layout = "_PaymentLayout";
 }
 
-@section Styles {
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/intlTellInput/intlTelInput.css"/>
-    </environment>
-    <environment include="Production">
-        <link rel="stylesheet" href="~/lib/intlTellInput/intlTelInput.min.css" asp-append-version="true"/>
-    </environment>
-    <style>
-        .iti__flag {background-image: url("/lib/intlTellInput/flags.png");}
-
-        @@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-          .iti__flag {background-image: url("/lib/intlTellInput/flags@2x.png");}
-        }
-    </style>
-}
-
 <form method="post" id="delivery-form">
     <h1 class="title has-text-centered is-size-5-mobile is-size-4 is-uppercase">Delivery Information</h1>
     <div class="field-horizontal">
@@ -37,9 +21,9 @@
         <label>Phone</label>
         <div class="field">
             <div class="control">
-                <input class="input" asp-for="Form.Phone" id="phone">
+                <input class="input" asp-for="Form.Phone">
             </div>
-            <span class="help is-danger" asp-validation-for="Form.Phone" id="phone-validation"></span>
+            <span class="help is-danger" asp-validation-for="Form.Phone"></span>
         </div>
     </div>
     <div class="field-horizontal">
@@ -110,32 +94,3 @@
         <button type="submit" class="button flow-color">Go To Payment</button>
     </div>
 </form>
-
-@section Scripts
-{
-    <environment include="Development">
-        <script src="~/lib/intlTellInput/intlTelInput.js"></script>
-    </environment>
-    <environment include="Production">
-        <link rel="stylesheet" href="~/lib/intlTellInput/intlTelInput.min.css" asp-append-version="true"/>
-    </environment>
-    <script src="~/lib/intlTellInput/utils.js"></script>
-    <script>
-     // todo: remove this shit
-      var phoneInput = document.getElementById("phone");
-      var phoneInputValidation = document.getElementById("phone-validation");
-      var telInput =window.intlTelInput(phoneInput, {
-          nationalMode: true
-      });
-
-      var deliveryForm = document.getElementById('delivery-form')
-      deliveryForm.addEventListener('submit', function(e) {
-          e.preventDefault();
-          if(telInput.isValidNumber()){
-              deliveryForm.submit();
-          } else {
-              phoneInputValidation.textContent = 'Invalid Number'
-          }
-      })
-    </script>
-}
