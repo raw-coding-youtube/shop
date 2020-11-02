@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RawCoding.Shop.Application.Emails;
@@ -9,6 +10,7 @@ using RawCoding.Shop.Database;
 
 namespace RawCoding.Shop.UI.Controllers.Admin
 {
+    [Authorize(ShopConstants.Policies.Admin)]
     public class UsersController : AdminBaseController
     {
         private readonly UserManager<IdentityUser> _userManager;

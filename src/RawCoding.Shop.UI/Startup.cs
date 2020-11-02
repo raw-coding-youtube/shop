@@ -66,7 +66,8 @@ namespace RawCoding.Shop.UI
                 app.UseExceptionHandler("/Error");
             }
 
-            app.UseStaticFiles()
+            app.UseHttpsRedirection()
+                .UseStaticFiles()
                 .UseCookiePolicy()
                 .UseRouting()
                 .UseMiddleware<ShopMiddleware>()
