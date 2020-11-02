@@ -30,6 +30,12 @@ namespace RawCoding.Shop.UI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
             services.Configure<StripeSettings>(_config.GetSection(nameof(StripeSettings)));
             services.Configure<ShopSettings>(_config.GetSection(nameof(ShopSettings)));
             StripeConfiguration.ApiKey = _config.GetSection("Stripe")["SecretKey"];

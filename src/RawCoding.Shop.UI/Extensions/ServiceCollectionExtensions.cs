@@ -89,12 +89,6 @@ namespace RawCoding.Shop.UI.Extensions
 
         public static IServiceCollection AddControllersAndPages(this IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
             services.Configure<RouteOptions>(options =>
             {
                 options.LowercaseUrls = true;
