@@ -46,7 +46,15 @@ namespace RawCoding.Shop.UI.Controllers.Admin
                 Email = email,
             };
 
-            await _userManager.CreateAsync(user, $"!{Guid.NewGuid().ToString()}");
+            var password = Enumerable.Range(0, 10)
+                .Aggregate("", (a, b) => $"{a}{new Random().Next(b)}");
+
+            var createUserResult = await _userManager.CreateAsync(user, $"aA1!{password}");
+            if (!createUserResult.Succeeded)
+            {
+                return BadRequest("Failed to create User");
+            }
+
             await _userManager.AddClaimAsync(user, new Claim(ShopConstants.Claims.Role, ShopConstants.Roles.ShopManager));
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
