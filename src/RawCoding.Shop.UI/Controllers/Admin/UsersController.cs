@@ -46,7 +46,7 @@ namespace RawCoding.Shop.UI.Controllers.Admin
                 Email = email,
             };
 
-            await _userManager.CreateAsync(user, Guid.NewGuid().ToString());
+            await _userManager.CreateAsync(user, $"!{Guid.NewGuid().ToString()}");
             await _userManager.AddClaimAsync(user, new Claim(ShopConstants.Claims.Role, ShopConstants.Roles.ShopManager));
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
