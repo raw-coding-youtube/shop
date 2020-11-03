@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RawCoding.Shop.Application.Emails;
@@ -9,6 +10,7 @@ using RawCoding.Shop.Database;
 
 namespace RawCoding.Shop.UI.Controllers.Admin
 {
+    [Authorize(ShopConstants.Policies.Admin)]
     public class UsersController : AdminBaseController
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -44,7 +46,15 @@ namespace RawCoding.Shop.UI.Controllers.Admin
                 Email = email,
             };
 
-            await _userManager.CreateAsync(user, Guid.NewGuid().ToString());
+            var password = Enumerable.Range(0, 10)
+                .Aggregate("", (a, b) => $"{a}{new Random().Next(b)}");
+
+            var createUserResult = await _userManager.CreateAsync(user, $"aA1!{password}");
+            if (!createUserResult.Succeeded)
+            {
+                return BadRequest("Failed to create User");
+            }
+
             await _userManager.AddClaimAsync(user, new Claim(ShopConstants.Claims.Role, ShopConstants.Roles.ShopManager));
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 

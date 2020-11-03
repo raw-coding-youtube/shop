@@ -22,6 +22,7 @@ namespace RawCoding.Shop.Domain.Models
         public string PostCode { get; set; }
         public string State { get; set; }
 
+        // TODO: default shipping charge
         public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.UtcNow;
         public IList<CartProduct> Products { get; set; } = new List<CartProduct>();
     }

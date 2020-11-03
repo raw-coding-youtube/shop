@@ -53,6 +53,7 @@ namespace RawCoding.Shop.UI.Controllers.Admin
             updateProduct.Archive(id);
 
         [HttpPost]
+        [DisableRequestSizeLimit]
         public async Task<object> CreateProduct(
             [FromForm] ProductForm form,
             [FromServices] CreateProduct createProduct,
@@ -67,13 +68,16 @@ namespace RawCoding.Shop.UI.Controllers.Admin
                 StockDescription = form.StockDescription
             };
 
-            var results = await Task.WhenAll(UploadFiles(s3Client, form.Images));
-
-            product.Images.AddRange(results.Select((path, index) => new Image
+            if (form.Images != null)
             {
-                Index = index,
-                Path = path,
-            }));
+                var results = await Task.WhenAll(UploadFiles(s3Client, form.Images));
+
+                product.Images.AddRange(results.Select((path, index) => new Image
+                {
+                    Index = index,
+                    Path = path,
+                }));
+            }
 
             return await createProduct.Do(product);
         }

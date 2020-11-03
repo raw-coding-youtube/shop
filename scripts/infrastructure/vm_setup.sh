@@ -64,6 +64,7 @@ mkdir /home/<ci_cd_username>/.ssh/authorized_keys # <- put ssh public key here
 # setup systemd service
 # mv shop.service /etc/systemd/system/
 sudo systemctl start shop
+sudo systemctl enable shop
 
 # setup nginx config after deploy
 sudo nginx -t
