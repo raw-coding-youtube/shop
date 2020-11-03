@@ -160,6 +160,7 @@ namespace RawCoding.Shop.UI
                                     new CartProduct {StockId = stock2.Id, Qty = 3},
                                     new CartProduct {StockId = stock3.Id, Qty = 6},
                                 },
+                                ShippingCharge = 500,
                             },
                         });
                         context.SaveChanges();

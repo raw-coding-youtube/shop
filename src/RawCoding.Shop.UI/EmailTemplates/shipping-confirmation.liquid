@@ -26,13 +26,26 @@
                         <div style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 14px;">{{ product.StockDescription }}
                             : {{ product.StockText }}</div>
                     {% endif %}
-                    <div style="font-family: 'Nunito', sans-serif; color: #c0c0c0; font-size: 15px;">Qty: x{{ product.Qty }}</div>
+                    <div style="font-family: 'Nunito', sans-serif; color: #c0c0c0; font-size: 15px;">Qty:
+                        x{{ product.Qty }}</div>
                 </td>
                 <td colspan="1" style="font-family: 'Nunito', sans-serif; color: #fff; width: 100px; height: 100px;">
                     {{ product.Total }}
                 </td>
             </tr>
         {% endfor %}
+        <tr>
+            <td colspan="4"
+                style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 14px; text-align: center;">
+                Shipping: <strong>{{ ShippingCharge }}</strong>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4"
+                style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; text-align: center;">
+                Total: <strong>{{ Total }}</strong>
+            </td>
+        </tr>
         <tr style="height: 55px; border-top: 1px solid lavender">
             <td colspan="2"
                 style="font-family: 'Nunito', sans-serif; color: #fff; font-weight: bold; font-size: 24px; padding: 8px 32px 0;">
@@ -44,24 +57,33 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2" style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ Address1 }}, {{ Address2 }}</td>
-            <td colspan="2" style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ Name }}</td>
+            <td colspan="2"
+                style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ Address1 }}
+                , {{ Address2 }}</td>
+            <td colspan="2"
+                style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ Name }}</td>
         </tr>
         <tr>
-            <td colspan="2" style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ City }}</td>
-            <td colspan="2" style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ Email }}</td>
+            <td colspan="2"
+                style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ City }}</td>
+            <td colspan="2"
+                style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ Email }}</td>
         </tr>
         <tr>
-            <td colspan="2" style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ Country }}</td>
-            <td colspan="2" style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ Phone }}</td>
+            <td colspan="2"
+                style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ Country }}</td>
+            <td colspan="2"
+                style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ Phone }}</td>
         </tr>
         {% if State and State != '' %}
             <tr>
-                <td colspan="4" style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ State }}</td>
+                <td colspan="4"
+                    style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ State }}</td>
             </tr>
         {% endif %}
         <tr>
-            <td colspan="4" style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ PostCode }}</td>
+            <td colspan="4"
+                style="font-family: 'Nunito', sans-serif; color: #fff; font-size: 16px; padding: 0 32px;">{{ PostCode }}</td>
         </tr>
         </tbody>
     </table>

@@ -35,6 +35,7 @@ namespace RawCoding.Shop.Application.Projections
                 x.Stock.Product.Description,
                 DefaultImage = x.Stock.Product.Images[0].Path,
             }),
+            ShippingCharge = order.Cart.ShippingCharge.ToMoney(),
             Total = order.Cart.Total().ToMoney(),
         };
 
