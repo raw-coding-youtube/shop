@@ -35,7 +35,7 @@ namespace RawCoding.Shop.Application.Projections
                 x.Stock.Product.Description,
                 DefaultImage = x.Stock.Product.Images[0].Path,
             }),
-            Total = order.Cart.Products.Sum(x => x.Qty * x.Stock.Value).ToMoney(),
+            Total = order.Cart.Total().ToMoney(),
         };
 
     }

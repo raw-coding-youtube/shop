@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
-using RawCoding.Shop.Application.Cart;
+using RawCoding.Shop.Application.CartActions;
 using RawCoding.Shop.UI.Extensions;
 
 namespace RawCoding.Shop.UI.Pages.Checkout
@@ -20,7 +20,7 @@ namespace RawCoding.Shop.UI.Pages.Checkout
             [FromServices] IWebHostEnvironment env)
         {
             var userId = User.GetUserId();
-            var cart = await getCart.ById(userId);
+            var cart = await getCart.ByUserId(userId);
             if (cart.Products.Count <= 0)
             {
                 return RedirectToPage("/Index");

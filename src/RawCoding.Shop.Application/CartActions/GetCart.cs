@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RawCoding.Shop.Domain.Extensions;
 using RawCoding.Shop.Domain.Interfaces;
 using RawCoding.Shop.Domain.Models;
 
-namespace RawCoding.Shop.Application.Cart
+namespace RawCoding.Shop.Application.CartActions
 {
     [Service]
     public class GetCart
@@ -18,14 +17,13 @@ namespace RawCoding.Shop.Application.Cart
             _cartManager = cartManager;
         }
 
-        public async Task<object> Do(string userId)
+        public async Task<object> GetCartForComponent(string userId)
         {
-            var cartId = await _cartManager.GetCartId(userId);
-            var cartProducts = _cartManager.GetCartProducts(cartId);
+            var cart = await ByUserId(userId);
 
             return new
             {
-                Items = cartProducts.Select(x => new
+                Items = cart.Products.Select(x => new
                 {
                     x.StockId,
                     x.Qty,
@@ -35,35 +33,26 @@ namespace RawCoding.Shop.Application.Cart
                     Value = x.Stock.Value.ToMoney(),
                     TotalValue = (x.Qty * x.Stock.Value).ToMoney(),
                 }),
-                Total = cartProducts.Select(x => x.Qty * x.Stock.Value).Sum().ToMoney()
+                ShippingCharge = cart.ShippingCharge.ToMoney(),
+                Total = cart.Total().ToMoney(),
             };
         }
 
-        public async Task<IEnumerable<T>> ByUserId<T>(string userId, Func<CartProduct, T> selector)
+        public async Task<Cart> ByUserId(string userId)
         {
-            var cart = await _cartManager.GetCartByUserId(userId);
-            if (cart == null)
+            var cart = await _cartManager.GetCartByUserId(userId) ?? await _cartManager.SaveCart(new Cart
             {
-                return Enumerable.Empty<T>();
-            }
+                UserId = userId,
+                // todo: come up with a better way to generate shipping charge
+                ShippingCharge = 300,
+            });
 
-            return _cartManager.GetCartProducts(cart.Id).Select(selector);
-        }
-
-
-        public Task<Domain.Models.Cart> ById(string cartId)
-        {
-            return _cartManager.GetCartByUserId(cartId);
+            return cart;
         }
 
         public Task<int> Id(string userId)
         {
             return _cartManager.GetCartId(userId);
-        }
-
-        public Task<Domain.Models.Cart> WithStock(string userId)
-        {
-            return _cartManager.GetCartWithStock(userId);
         }
     }
 }
