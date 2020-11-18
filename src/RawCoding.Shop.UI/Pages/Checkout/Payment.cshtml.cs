@@ -2,9 +2,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using RawCoding.Shop.Application.Cart;
+using RawCoding.Shop.Application.CartActions;
 using RawCoding.Shop.Application.Orders;
+using RawCoding.Shop.Domain.Extensions;
 using RawCoding.Shop.UI.Extensions;
 using Stripe;
 
@@ -22,7 +24,7 @@ namespace RawCoding.Shop.UI.Pages.Checkout
             var userId = User.GetUserId();
             StripeConfiguration.ApiKey = optionsMonitor.CurrentValue.SecretKey;
 
-            var cart = await getCart.WithStock(userId);
+            var cart = await getCart.ByUserId(userId);
             if (cart == null || cart.Products.Count <= 0)
             {
                 return RedirectToPage("/Index");
@@ -31,7 +33,7 @@ namespace RawCoding.Shop.UI.Pages.Checkout
             var paymentIntent = await paymentIntentService.CreateAsync(new PaymentIntentCreateOptions
             {
                 CaptureMethod = "manual",
-                Amount = cart.Products.Sum(x => x.Qty * x.Stock.Value),
+                Amount = cart.Total(),
                 Currency = "gbp",
                 ReceiptEmail = cart.Email,
                 Shipping = new ChargeShippingOptions
@@ -59,19 +61,30 @@ namespace RawCoding.Shop.UI.Pages.Checkout
             string paymentId,
             [FromServices] CreateOrder createOrder,
             [FromServices] GetCart getCart,
-            [FromServices] PaymentIntentService paymentIntentService)
+            [FromServices] PaymentIntentService paymentIntentService,
+            [FromServices] ILogger<Payment> logger)
         {
+            var userId = User.GetUserId();
+            var cartId = await getCart.Id(userId);
+
+            if (cartId == 0)
+            {
+                logger.LogWarning($"Cart not found for {userId} with payment id {paymentId}");
+                return RedirectToPage("/Checkout/Error");
+            }
+
             var payment = await paymentIntentService.CaptureAsync(paymentId);
 
             if (payment == null)
             {
+                logger.LogWarning($"Payment Intent not found {paymentId}");
                 return RedirectToPage("/Checkout/Error");
             }
 
             var order = new Domain.Models.Order
             {
                 StripeReference = paymentId,
-                CartId = await getCart.Id(User.GetUserId()),
+                CartId = cartId,
             };
             await createOrder.Do(order);
 

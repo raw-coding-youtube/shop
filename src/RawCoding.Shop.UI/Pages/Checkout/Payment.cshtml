@@ -97,16 +97,16 @@
           loading(false);
           var errorMsg = document.querySelector("#card-error");
           errorMsg.textContent = errorMsgText;
+            document.getElementById('full-screen-loader').classList.remove('is-active');
           setTimeout(function() {
             errorMsg.textContent = "";
           }, 4000);
         };
-@* TODO: fix load on invalid payment *@
         var loading = function(isLoading) {
           if (isLoading) {
             document.querySelector("button").disabled = true;
             document.getElementById('full-screen-loader').classList.add('is-active');
-            document.querySelector("#button-text").classList.add("hidden");
+            document.getElementById("full-screen-loader-status").textContent = 'Connecting To Stripe';
           } else {
             document.getElementById("full-screen-loader-status").textContent = 'Completing Payment';
           }

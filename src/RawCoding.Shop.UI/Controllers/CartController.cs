@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RawCoding.Shop.Application.Cart;
+using RawCoding.Shop.Application.CartActions;
 using RawCoding.Shop.Domain.Interfaces;
 using Stripe;
 using Stripe.Checkout;
@@ -51,7 +51,7 @@ namespace RawCoding.Shop.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCart([FromServices] GetCart getCart)
+        public async Task<IActionResult> GetCartForComponent([FromServices] GetCart getCart)
         {
             var userId = User?.Claims?.FirstOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier))?.Value;
             if (string.IsNullOrEmpty(userId))
@@ -59,7 +59,7 @@ namespace RawCoding.Shop.UI.Controllers
                 return BadRequest("Cookie Policy not accepted");
             }
 
-            return Ok(await getCart.Do(userId));
+            return Ok(await getCart.GetCartForComponent(userId));
         }
 
         [HttpPost]

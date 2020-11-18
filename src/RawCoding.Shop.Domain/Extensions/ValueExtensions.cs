@@ -1,6 +1,6 @@
 namespace RawCoding.Shop.Domain.Extensions
 {
-    public static class ValueExtension
+    public static class ValueExtensions
     {
         public static string ToMoney(this int v)
         {

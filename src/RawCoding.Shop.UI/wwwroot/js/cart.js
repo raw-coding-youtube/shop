@@ -17,8 +17,6 @@
     },
     created() {
         this.loadCart()
-
-
     },
     watch: {
         open: function (v) {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using RawCoding.Shop.Domain.Interfaces;
 
-namespace RawCoding.Shop.Application.Cart
+namespace RawCoding.Shop.Application.CartActions
 {
     [Service]
     public class RemoveFromCart

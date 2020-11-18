@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using RawCoding.Shop.Domain.Models;
 using RawCoding.Shop.Domain.Interfaces;
+using RawCoding.Shop.Domain.Models;
 
-namespace RawCoding.Shop.Application.Cart
+namespace RawCoding.Shop.Application.CartActions
 {
     [Service]
     public class UpdateCart

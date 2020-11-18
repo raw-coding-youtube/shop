@@ -89,6 +89,6 @@
                 </div>
             </div>
         }
-        <div class="has-text-right is-size-5">Total <strong>@Model.Order.Cart.Products.Sum(x => x.Qty * x.Stock.Value).ToMoney()</strong></div>
+        <div class="has-text-right is-size-5">Total <strong>@Model.Order.Cart.Total().ToMoney()</strong></div>
     </div>
 </div>

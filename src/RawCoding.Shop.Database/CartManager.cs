@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RawCoding.Shop.Domain.Interfaces;
@@ -16,12 +18,8 @@ namespace RawCoding.Shop.Database
             _ctx = ctx;
         }
 
-        private async Task<Cart> CreateCart(string cartId)
+        public async Task<Cart> SaveCart(Cart cart)
         {
-            var cart = new Cart
-            {
-                UserId = cartId,
-            };
             _ctx.Add(cart);
             await _ctx.SaveChangesAsync();
             return cart;
@@ -58,51 +56,32 @@ namespace RawCoding.Shop.Database
 
         public async Task<int> GetCartId(string userId)
         {
-            var cart = _ctx.Carts?
-                           .AsNoTracking()
-                           .FirstOrDefault(x => x.UserId == userId && !x.Closed)
-                       ?? await CreateCart(userId);
+            var cart = await _ctx.Carts
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.UserId == userId && !x.Closed);
 
-            return cart.Id;
+            return cart?.Id ?? 0;
         }
 
         public Task<Cart> GetCartById(int cartId)
         {
-            return _ctx.Carts
-                .Include(x => x.Products)
-                .ThenInclude(x => x.Stock)
-                .FirstOrDefaultAsync(x => x.Id == cartId);
+            return GetCart(x => x.Id == cartId);
         }
 
         public Task<Cart> GetCartByUserId(string userId)
         {
-            var cart = _ctx.Carts
-                .Where(x => x.UserId == userId && !x.Closed)
-                .Include(x => x.Products)
-                .FirstOrDefault();
-
-            return cart == null ? CreateCart(userId) : Task.FromResult(cart);
+            return GetCart(x => x.UserId == userId && !x.Closed);
         }
 
-        public Task<Cart> GetCartWithStock(string userId)
+        private Task<Cart> GetCart(Expression<Func<Cart, bool>> condition)
         {
             return _ctx.Carts
-                .AsNoTracking()
-                .Where(x => x.UserId == userId && !x.Closed)
+                .Where(condition)
                 .Include(x => x.Products)
                 .ThenInclude(x => x.Stock)
-                .FirstOrDefaultAsync();
-        }
-
-        public IList<CartProduct> GetCartProducts(int cartId)
-        {
-            return _ctx.CartProducts
-                .Where(x => x.CartId == cartId)
-                .Include(x => x.Stock)
                 .ThenInclude(x => x.Product)
                 .ThenInclude(x => x.Images)
-                .AsNoTracking()
-                .ToList();
+                .FirstOrDefaultAsync();
         }
     }
 }
